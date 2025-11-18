@@ -1,3 +1,6 @@
+import bcrypt
+
+
 def validar_mayuscula(string) -> bool:
         tiene_mayuscula = any(c.isupper() for c in string)
         return tiene_mayuscula
@@ -12,7 +15,7 @@ def validar_signo(string) -> bool:
     return tiene_caracter_especial
 
 
-def aplicar_reglas_contrasena(password:str):
+def aplicar_reglas_contrasena(password:str) -> bool:
     mensaje = ""
     if len(password) <= 5:
         mensaje += "\n* La contraseña debe tener más de 5 dígitos"
@@ -30,3 +33,11 @@ def aplicar_reglas_contrasena(password:str):
 
     print(mensaje)
     return valido
+
+def hash_password(password: str) -> str:
+    hashed = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt())
+    return hashed.decode("utf-8")
+
+
+def verify_password(password: str, hashed_password: str) -> bool:
+    return bcrypt.checkpw(password.encode("utf-8"), hashed_password.encode("utf-8"))

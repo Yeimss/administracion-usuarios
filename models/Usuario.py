@@ -1,4 +1,4 @@
-from utils.PasswordUtils import aplicar_reglas_contrasena
+from utils.PasswordUtils import aplicar_reglas_contrasena, hash_password, verify_password
 
 class Usuario:
     def __init__(self, nombre, apellido, documento, ciudad, profesion):
@@ -7,7 +7,7 @@ class Usuario:
         self.documento = documento
         self.ciudad = ciudad
         self.profesion = profesion
-        self.password = "1234"
+        self.password = hash_password("1234")
 
     def presentarse(self):
         print(f"Hola mi nombre es {self.nombre} y vivo en {self.ciudad}")
@@ -21,7 +21,7 @@ class Usuario:
     def validar_contrasena_actual(self):
         contrasena = input("Ingrese contraseña actual: ")
 
-        if contrasena != self.password:
+        if verify_password(contrasena, self.password):
             print("Contraseña incorrecta")
             return False
         
